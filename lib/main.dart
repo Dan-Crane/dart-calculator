@@ -1,5 +1,6 @@
 // core
 import 'package:flutter/material.dart';
+import 'package:expression_language/expression_language.dart';
 
 // component
 import 'assets/btn.dart';
@@ -52,6 +53,18 @@ class MyAppState extends State<MyApp> {
     });
   }
 
+  void handelResult(String symbol) {
+    var expressionGrammarDefinition = ExpressionGrammarParser({});
+    var parser = expressionGrammarDefinition.build();
+    var result = parser.parse(_expression);
+    var expression = result.value;
+    var value = expression.evaluate();
+
+    setState(() {
+      _result = value.toString();
+    });
+  }
+
   // render
   @override
   Widget build(BuildContext context) {
@@ -64,7 +77,7 @@ class MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 10, bottom: 18),
+                margin: EdgeInsets.only(right: 10, bottom: 18, left: 4),
                 alignment: Alignment(1, 1),
                 child: Text(
                   _expression,
@@ -75,7 +88,7 @@ class MyAppState extends State<MyApp> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(right: 10, bottom: 30),
+                margin: EdgeInsets.only(right: 10, bottom: 30, left: 4),
                 alignment: Alignment(1, 1),
                 child: Text(
                   _result,
@@ -242,7 +255,7 @@ class MyAppState extends State<MyApp> {
                     backCol: "#060606",
                   ),
                   Btn(
-                    cb: handelTab,
+                    cb: handelResult,
                     symbol: "=",
                     symbSize: 20,
                     bold: false,
